@@ -176,14 +176,11 @@
               <el-input v-model="addgroupmsg.groupname"></el-input>
             </el-form-item>
           </el-form>
-
           <span slot="footer" class="dialog-footer">
             <el-button @click="addgroupvis = false">取 消</el-button>
             <el-button type="primary" @click="addgroupconfirm">确 定</el-button>
           </span>
         </el-dialog>
-
-
 
         <el-dialog
           title="操作确认"
@@ -194,7 +191,6 @@
           <el-form :model="deletemsg" :rules="deleterule" ref="deleteref" label-width="70px">
             <h3 align="center">确定要删除该数据吗？</h3>
           </el-form>
-
           <span slot="footer" class="dialog-footer">
             <el-button @click="deletepersonvis = false">取 消</el-button>
             <el-button type="primary" @click="deleteconfirm">确 定</el-button>
@@ -219,12 +215,10 @@ export default {
       worktimeafternoononduty: "",
       worktimeafternoonoffduty: "",
       roboturl: "",
-
       groupdata: {},
       personlist: [],
       groupname: "共享组",
       groups: [],
-
 
       addpersonvis: false,
       addmsg: {
@@ -245,7 +239,6 @@ export default {
         ]
       },
 
-
       editpersonvis: false,
       editmsg: {
         groupname: "",
@@ -265,7 +258,6 @@ export default {
         ]
       },
 
-
       addgroupvis: false,
       addgroupmsg: {
         groupnumber: "",
@@ -279,7 +271,6 @@ export default {
           { required: true, message: "请输入用户组名称", trigger: "blur" }
         ]
       },
-
 
       deletepersonvis: false,
       deletemsg: {
