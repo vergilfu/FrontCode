@@ -208,7 +208,7 @@ export default {
           this.shownotification("请填写必填项");
         } else {
           if (this.checkvalue(this.addmsg.taskid)) {
-            this.shownotification("任务ID重复，请重新填写！！！");
+            this.shownotification("任务ID重复,请重新填写!!!");
           } else {
             this.tasklist.push({
               taskorigin: this.addmsg.taskorigin,
@@ -218,7 +218,12 @@ export default {
             });
             axios.post(
               process.env.VUE_APP_CONFIG_API + "/TaskList/add",
-              this.tasklist
+              {
+                taskorigin:this.addmsg.taskorigin,
+                taskid:this.addmsg.taskid,
+                taskname:this.addmsg.taskname,
+                taskenv:this.addmsg.taskenv,
+              }
             );
             this.addtaskvis = false;
             this.shownotification("新增任务保存成功！！！");
@@ -226,7 +231,6 @@ export default {
         }
       });
     },
-
     addclose() {
       this.$refs.addref.resetFields();
     },
@@ -239,7 +243,6 @@ export default {
         )
         .then(response => (this.editmsg = response.data));
     },
-
     editconfirm() {
       this.$refs.editref.validate(valid => {
         if (!valid) {
@@ -254,7 +257,6 @@ export default {
         }
       });
     },
-
     editclose() {
       // this.$refs.editref.resetFields();
     },

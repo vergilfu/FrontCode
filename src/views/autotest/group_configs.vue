@@ -167,6 +167,24 @@
           </span>
         </el-dialog>
 
+        <el-dialog title="新增用户组" :visible.sync="addgroupvis" width="30%" @close="addgroupclose">
+          <el-form :model="addgroupmsg" :rules="addgrouprule" ref="addgroupref" label-width="70px">
+            <el-form-item label="用户组编号" prop="groupnumber">
+              <el-input v-model="addgroupmsg.groupnumber"></el-input>
+            </el-form-item>
+            <el-form-item label="用户组名称" prop="groupname">
+              <el-input v-model="addgroupmsg.groupname"></el-input>
+            </el-form-item>
+          </el-form>
+
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="addgroupvis = false">取 消</el-button>
+            <el-button type="primary" @click="addgroupconfirm">确 定</el-button>
+          </span>
+        </el-dialog>
+
+
+
         <el-dialog
           title="操作确认"
           :visible.sync="deletepersonvis"
@@ -207,6 +225,7 @@ export default {
       groupname: "共享组",
       groups: [],
 
+
       addpersonvis: false,
       addmsg: {
         groupname: "",
@@ -226,6 +245,7 @@ export default {
         ]
       },
 
+
       editpersonvis: false,
       editmsg: {
         groupname: "",
@@ -244,6 +264,22 @@ export default {
           { required: true, message: "请输入手机号", trigger: "blur" }
         ]
       },
+
+
+      addgroupvis: false,
+      addgroupmsg: {
+        groupnumber: "",
+        groupname: ""
+      },
+      addgrouprule: {
+        groupnumber: [
+          { required: true, message: "请输入用户组编号", trigger: "blur" }
+        ],
+        groupname: [
+          { required: true, message: "请输入用户组名称", trigger: "blur" }
+        ]
+      },
+
 
       deletepersonvis: false,
       deletemsg: {
@@ -338,8 +374,10 @@ export default {
               personphone: this.addmsg.personphone
             });
             axios.post(process.env.VUE_APP_CONFIG_API + "/GroupConfigs/add", {
-              groupname: this.groupname,
-              personlist: this.personlist
+              groupname :this.groupname,
+              personnumber: this.addmsg.personnumber,
+              personname: this.addmsg.personname,
+              personphone: this.addmsg.personphone
             });
             this.addpersonvis = false;
             this.shownotification("新增成员信息保存成功！！！");
@@ -382,6 +420,30 @@ export default {
     editpersonclose() {
       // this.$refs.editref.resetFields();
     },
+
+    addgroupconfirm() {
+      this.$refs.addgroupref.validate(valid => {
+        if (!valid) {
+          this.shownotification("请填写用户组名称、编号");
+        } else {
+          if (this.checkvalue(this.addgroupmsg.groupnumber)) {
+            this.shownotification("编码重复，请重新填写！！！");
+          } else {
+            axios.post(process.env.VUE_APP_CONFIG_API + "/GroupConfigs/addgroup", {
+              groupname :this.addgroupmsg.groupname
+            });
+            this.addgroupvis = false;
+            this.shownotification("新增成员信息保存成功！！！");
+            this.getGroups
+          }
+        }
+      });
+    },
+
+    addpersonclose() {
+      this.$refs.addref.resetFields();
+    },
+
 
     deleteperson(personnumber) {
       this.deletepersonvis = true;

@@ -19,8 +19,8 @@
     <el-container>
       <el-main>
         <el-table :data="systemconfigs" style="width: 100%" :default-sort="{prop:'configname',order:'ascending'}" border fit highlight-current-row>
-          <el-table-column prop="configname" label="配置项" width="380" sortable align="center"></el-table-column>
-          <el-table-column prop="configvalue" label="值" width="880" sortable align="center"></el-table-column>
+          <el-table-column prop="configname" label="配置项" width="180" sortable align="center"></el-table-column>
+          <el-table-column prop="configvalue" label="值" width="1280" sortable align="center"></el-table-column>
           <el-table-column label="操作" width="180" align="center">
             <template slot-scope="systemconfigs">
               <el-button
@@ -199,7 +199,10 @@ export default {
             });
             axios.post(
               process.env.VUE_APP_CONFIG_API + "/SystemConfigs/add",
-              this.systemconfigs
+              {
+                configname:this.addmsg.configname,
+                configvalue:this.addmsg.configvalue
+              }
             );
             this.addvis = false;
             this.shownotification("新增配置项保存成功！！！");
