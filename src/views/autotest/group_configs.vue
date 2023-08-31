@@ -168,7 +168,7 @@
         </el-dialog>
 
         <el-dialog title="新增用户组" :visible.sync="addgroupvis" width="30%" @close="addgroupclose">
-          <el-form :model="addgroupmsg" :rules="addgrouprule" ref="addgroupref" label-width="70px">
+          <el-form :model="addgroupmsg" :rules="addgrouprule" ref="addgroupref" label-width="95px">
             <el-form-item label="用户组编号" prop="groupnumber">
               <el-input v-model="addgroupmsg.groupnumber"></el-input>
             </el-form-item>
@@ -431,8 +431,8 @@ export default {
       });
     },
 
-    addpersonclose() {
-      this.$refs.addref.resetFields();
+    addgroupclose() {
+      this.$refs.addgroupref.resetFields();
     },
 
 

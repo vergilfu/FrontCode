@@ -31,11 +31,14 @@
     <el-container>
       <el-main>
         <el-table :data="taskmanagement" style="width: 100%" :default-sort="{prop:'taskorigin',order:'ascending'}" border fit highlight-current-row>
-          <el-table-column prop="taskorigin" label="任务类型" width="180" sortable align="center"></el-table-column>
+          <el-table-column prop="taskorigin" label="任务类型" width="120" sortable align="center"></el-table-column>
           <el-table-column prop="taskid" label="任务ID" width="180" sortable align="center"></el-table-column>
-          <el-table-column prop="taskname" label="任务名称" width="180" sortable align="center"></el-table-column>
-          <el-table-column prop="taskfrequency" label="任务通知频率" width="180" sortable align="center"></el-table-column>
-
+          <el-table-column prop="taskname" label="任务名称" width="280" sortable align="center"></el-table-column>
+          <el-table-column prop="taskfrequency" label="任务通知频率" width="150" sortable align="center"></el-table-column>
+          <el-table-column prop="sendstrategy" label="任务发送策略" width="150" sortable align="center"></el-table-column>
+          <el-table-column prop="taskdate" label="任务执行日期" width="180" sortable align="center"></el-table-column>
+          <el-table-column prop="taskexecuteid" label="任务执行记录" width="180" sortable align="center"></el-table-column>
+          <el-table-column prop="taskrel" label="关联任务ID" width="180" sortable align="center"></el-table-column>
           <el-table-column label="操作" width="180" align="center">
             <template slot-scope="taskmanagement">
               <el-button
@@ -61,17 +64,17 @@
       <el-main>
         <el-dialog title="新增任务" :visible.sync="addtaskvis" width="30%" @close="addtaskclose">
           <el-form :model="addmsg" :rules="addrule" ref="addref" label-width="110px">
-            <el-form-item label="taskselect" prop="taskselect">
-              
-              <el-select v-model="selectvalue" placeholder="请选择">
+            <el-form-item label="请选择任务" prop="taskselect">
+              <el-select v-model="taskid" placeholder="请选择">
                 <el-option
-                  v-for="item in selectitems"
-                  :key="item.selectvalue"
+                  v-for="item in selectlist"
+                  :key="item.selectproduct.taskid"
                   :label="item.label"
-                  :value="item.selectvalue"
-                ></el-option>
+                  :value="item.selectproduct.taskid">
+                </el-option>
               </el-select>
             </el-form-item>
+            
             <el-form-item label="任务通知频率" prop="taskfrequency">
               <div class="block">
                 <span class="demonstration"></span>
@@ -83,8 +86,13 @@
                 ></el-cascader>
               </div>
             </el-form-item>
+            <el-form-item label="任务发送策略" prop="sendstrategy">
+              <el-input v-model="addmsg.sendstrategy" ></el-input>
+            </el-form-item>
+            <el-form-item label="关联任务ID" prop="taskrel">
+              <el-input v-model="addmsg.taskrel" ></el-input>
+            </el-form-item>
           </el-form>
-
           <span slot="footer" class="dialog-footer">
             <el-button @click="addtaskvis = false">取 消</el-button>
             <el-button type="primary" @click="addconfirm">确 定</el-button>
@@ -97,10 +105,10 @@
               <el-input v-model="editmsg.taskorigin" disabled></el-input>
             </el-form-item>
             <el-form-item label="任务ID" prop="taskid">
-              <el-input v-model="editmsg.taskid"></el-input>
+              <el-input v-model="editmsg.taskid" disabled></el-input>
             </el-form-item>
             <el-form-item label="任务名称" prop="taskname">
-              <el-input v-model="editmsg.taskname"></el-input>
+              <el-input v-model="editmsg.taskname" disabled></el-input>
             </el-form-item>
             <el-form-item label="任务通知频率" prop="taskfrequency">
               <div class="block">
@@ -113,8 +121,13 @@
                 ></el-cascader>
               </div>
             </el-form-item>
+            <el-form-item label="任务发送策略" prop="taskorigin">
+              <el-input v-model="editmsg.sendstrategy" ></el-input>
+            </el-form-item>
+            <el-form-item label="关联任务ID" prop="taskorigin">
+              <el-input v-model="editmsg.taskrel" ></el-input>
+            </el-form-item>
           </el-form>
-
           <span slot="footer" class="dialog-footer">
             <el-button @click="edittaskvis = false">取 消</el-button>
             <el-button type="primary" @click="editconfirm">确 定</el-button>
@@ -125,7 +138,6 @@
           <el-form :model="deletemsg" :rules="deleterule" ref="deleteref" label-width="70px">
             <h3 align="center">确定要删除该数据吗？</h3>
           </el-form>
-
           <span slot="footer" class="dialog-footer">
             <el-button @click="deletetaskvis = false">取 消</el-button>
             <el-button type="primary" @click="deleteconfirm">确 定</el-button>
@@ -214,35 +226,39 @@ export default {
           label: "每周通知两次"
         }
       ],
-      selectitems: [
-        {
-          selectvalue: {},
-          label: ""
-        }
+      
+      selectlist:[{
+        selectproduct:{
+          taskid: "",
+          taskorigin: "",
+          taskname: ""
+        },
+        label:''
+        },
       ],
-      selectvalue: {},
+      taskid:"",
+
+      
       taskmanagement: [],
       groupname: "共享组",
       groups: [],
 
       addtaskvis: false,
       addmsg: {
-        groupname: "",
-        taskid: "",
-        taskname: "",
-        taskorigin: "",
-        taskfrequency: ""
+        taskselect:this.taskid,
+        taskfrequency: "",
+        sendstrategy:"",
+        taskrel:""
       },
       addrule: {
-        taskid: [{ required: true, message: "请输入taskid", trigger: "blur" }],
-        taskname: [
-          { required: true, message: "请输入任务名称", trigger: "blur" }
-        ],
-        taskorigin: [
-          { required: true, message: "请输入任务类型", trigger: "blur" }
+        taskselect: [
+          { required: true, message: "请选择任务", trigger: "blur" }
         ],
         taskfrequency: [
           { required: true, message: "请输入任务通知频率", trigger: "blur" }
+        ],
+        sendstrategy: [
+          { required: true, message: "请输入任务发送策略", trigger: "blur" }
         ]
       },
 
@@ -252,10 +268,14 @@ export default {
         taskid: "",
         taskname: "",
         taskorigin: "",
-        taskfrequency: ""
+        taskfrequency: "",
+        sendstrategy:"",
+        taskrel:""
       },
       editrule: {
-        taskid: [{ required: true, message: "请输入taskid", trigger: "blur" }],
+        taskid: [
+          { required: true, message: "请输入taskid", trigger: "blur" }
+        ],
         taskname: [
           { required: true, message: "请输入任务名称", trigger: "blur" }
         ],
@@ -264,6 +284,9 @@ export default {
         ],
         taskfrequency: [
           { required: true, message: "请输入任务通知频率", trigger: "blur" }
+        ],
+        sendstrategy: [
+          { required: true, message: "请输入任务发送策略", trigger: "blur" }
         ]
       },
 
@@ -347,34 +370,30 @@ export default {
           groupname: this.groupname,
           tasklist: this.taskmanagement
         })
-        .then(response => (this.selectitems = response.data));
+        .then(response => (this.selectlist = response.data));
+      this.taskid = "";
       this.addtaskvis = true;
     },
-
     addconfirm() {
       this.$refs.addref.validate(valid => {
         if (!valid) {
           this.shownotification(
-            "请填写任务类型、任务ID、任务名称及任务通知频率"
+            "请填写任务类型、任务ID、任务名称、任务通知频率及任务发送策略"
           );
         } else {
-          console.log(this.selectvalue)
-          this.taskmanagement.push({
-            taskorigin: this.selectvalue.taskorigin,
-            taskid: this.selectvalue.taskid,
-            taskname: this.selectvalue.taskname,
-            taskfrequency: this.addmsg.taskfrequency
-          });
           axios.post(process.env.VUE_APP_CONFIG_API + "/Normaltask/addtask", {
             groupname: this.groupname,
-            taskmanagement: this.taskmanagement
+            taskid: this.addmsg.taskselect,
+            taskfrequency: this.addmsg.taskfrequency,
+            sendstrategy:this.addmsg.sendstrategy,
+            taskrel:this.addmsg.taskrel,
           });
           this.addtaskvis = false;
           this.shownotification("新增任务信息保存成功！！！");
+          this.refresh();
         }
       });
     },
-
     addtaskclose() {
       this.$refs.addref.resetFields();
     },
@@ -388,7 +407,6 @@ export default {
         })
         .then(response => (this.editmsg = response.data));
     },
-
     editconfirm() {
       this.$refs.editref.validate(valid => {
         if (!valid) {
@@ -396,7 +414,6 @@ export default {
             "请填写任务类型、任务ID、任务名称及任务通知频率"
           );
         } else {
-          console.log(this.editmsg);
           axios.post(process.env.VUE_APP_CONFIG_API + "/Normaltask/edit", {
             groupname: this.groupname,
             editmsg: this.editmsg
@@ -407,7 +424,6 @@ export default {
         }
       });
     },
-
     edittaskclose() {
       // this.$refs.editref.resetFields();
     },
@@ -416,7 +432,6 @@ export default {
       this.deletetaskvis = true;
       this.deletemsg.taskid = taskid;
     },
-
     deleteconfirm() {
       axios.post(process.env.VUE_APP_CONFIG_API + "/Normaltask/delete", {
         groupname: this.groupname,
@@ -429,6 +444,7 @@ export default {
     deletetaskclose() {
       this.$refs.deleteref.resetFields();
     },
+
     handleChange(val) {
       console.log(val);
     }
@@ -440,6 +456,9 @@ export default {
           groupname: decodeURI(newVal)
         })
         .then(response => (this.taskmanagement = response.data));
+    },
+    taskid(newVal, oldVal) {
+      this.addmsg.taskselect = this.taskid
     }
   }
 };
