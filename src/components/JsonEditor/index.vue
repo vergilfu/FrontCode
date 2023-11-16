@@ -37,7 +37,7 @@ export default {
       mode: 'application/json',
       gutters: ['CodeMirror-lint-markers'],
       theme: 'rubyblue',
-      lint: true
+      lint: false
     })
 
     this.jsonEditor.setValue(JSON.stringify(this.value, null, 2))
