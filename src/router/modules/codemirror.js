@@ -2,11 +2,11 @@
 
 import Layout from '@/layout'
 
-const apimockRouter = {
-  path: '/apimock',
+const taskRouter = {
+  path: '/codemirror',
   component: Layout,
-  redirect: '/apimock/',
-  name: 'apimock',
+  redirect: '/codemirror/',
+  name: 'codemirror',
   meta: {
     title: '接口mock',
     icon: 'table'
@@ -14,11 +14,11 @@ const apimockRouter = {
   children: [
 
     {
-      path: 'list',
+      path: 'index',
       component: () =>
-        import ('@/views/apimock/list'),
-      name: 'mock接口管理',
-      meta: { title: 'mock接口管理' }
+        import ('@/views/vue-codemirror/index'),
+      name: '接口列表',
+      meta: { title: '接口列表' }
     }
     // {
     //     path: 'test',
@@ -29,4 +29,4 @@ const apimockRouter = {
     // }
   ]
 }
-export default apimockRouter
+export default taskRouter

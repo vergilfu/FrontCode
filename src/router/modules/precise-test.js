@@ -2,23 +2,23 @@
 
 import Layout from '@/layout'
 
-const apimockRouter = {
-  path: '/apimock',
+const preciseRouter = {
+  path: '/precise',
   component: Layout,
-  redirect: '/apimock/',
-  name: 'apimock',
+  redirect: '/precise/',
+  name: 'precise',
   meta: {
-    title: '接口mock',
+    title: '精准测试工具',
     icon: 'table'
   },
   children: [
 
     {
-      path: 'list',
+      path: 'index',
       component: () =>
-        import ('@/views/apimock/list'),
-      name: 'mock接口管理',
-      meta: { title: 'mock接口管理' }
+        import ('@/views/precise-test/export-excel'),
+      name: '精准测试工具',
+      meta: { title: '精准测试工具' }
     }
     // {
     //     path: 'test',
@@ -29,4 +29,4 @@ const apimockRouter = {
     // }
   ]
 }
-export default apimockRouter
+export default preciseRouter
