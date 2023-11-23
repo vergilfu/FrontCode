@@ -67,80 +67,123 @@
         </el-row>
       </el-form>
     </div>
+    <el-container style="">
 
-    <el-table
-      :key="tableKey"
-      v-loading="listLoading"
-      :data="tablelist"
-      fit
-      highlight-current-row
-      style="width: 100%;"
-      @sort-change="sortChange"
-    >
-      <el-table-column type="index" label="ID">
-        <!-- <template slot-scope="{row}">
-                    <span>{{ row.id }}</span>
-                </template> -->
-      </el-table-column>
-      <el-table-column label="名称" width="150px">
-        <template slot-scope="{row}">
-          <span>{{ row.name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="path" min-width="150px">
-        <template slot-scope="{row}">
-          <el-popover trigger="hover" placement="top">
-            <p>URL Base: {{ VUE_APP_MOCK_SERVER + row.baseuri }}</p>
-            <p>URL全路径: {{ VUE_APP_MOCK_SERVER + row.uri }}</p>
-            <!-- <el-table :data="row">
-                            <el-table-column width="150" property="basePath" label="URL Base"></el-table-column>
-                            <el-table-column width="100" property="fullPath" label="URL全路径"></el-table-column>
-                        </el-table> -->
-            <div slot="reference" class="name-wrapper">
-              <span class="link-type" @click="handleUpdate(row)">{{ row.uri }}</span>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column>
-      <!-- <el-table-column label="URL Base" width="150px" >
-                <template slot-scope="{row}">
-                    <span>{{ row.basePath | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
-                </template>
+      <el-aside width="200px" style="">
+        <el-button type="primary" icon="el-icon-document-add" style="" circle />
+        <el-button type="primary" icon="el-icon-edit" circle />
+        <el-button type="danger" icon="el-icon-delete" circle />
+        <!-- <el-header style="font-size: 12px">
+          <el-dropdown>
+            <i class="el-icon-setting" style="margin-right: 15px"></i>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>查看</el-dropdown-item>
+              <el-dropdown-item>新增</el-dropdown-item>
+              <el-dropdown-item>删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span>操作</span>
+        </el-header> -->
+        <el-menu :default-openeds="['1', '3']">
+          <el-submenu index="1">
+            <template slot="title"><i class="el-icon-message" />导航一</template>
+            <el-menu-item-group>
+              <template slot="title">分组一</template>
+              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item index="1-2">选项2</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group title="分组2">
+              <el-menu-item index="1-3">选项3</el-menu-item>
+            </el-menu-item-group>
+            <el-submenu index="1-4">
+              <template slot="title">选项4</template>
+              <el-menu-item index="1-4-1">选项4-1</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+
+        </el-menu>
+      </el-aside>
+
+      <el-container>
+
+        <el-main>
+          <el-table
+            :key="tableKey"
+            v-loading="listLoading"
+            :data="tablelist"
+            fit
+            highlight-current-row
+            style="width: 100%;"
+            @sort-change="sortChange"
+          >
+            <el-table-column type="index" label="ID">
+            <!-- <template slot-scope="{row}">
+                        <span>{{ row.id }}</span>
+                    </template> -->
             </el-table-column>
-            <el-table-column label="URL全路径" width="150px" >
-                <template slot-scope="{row}">
-                    <span>{{ row.fullPath | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
-                </template>
-            </el-table-column> -->
-      <el-table-column label="创建人" width="110px">
-        <template slot-scope="{row}">
-          <span>{{ row.creator }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="修改人" width="110px">
-        <template slot-scope="{row}">
-          <span>{{ row.modifier }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="修改时间" width="110px">
-        <template slot-scope="{row}">
-          <span>{{ row.modifytime }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="Actions" width="230" class-name="small-padding fixed-width">
-        <template slot-scope="{row,$index}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            编辑
-          </el-button>
+            <el-table-column label="名称" width="150px">
+              <template slot-scope="{row}">
+                <span>{{ row.name }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="path" min-width="150px">
+              <template slot-scope="{row}">
+                <el-popover trigger="hover" placement="top">
+                  <p>URL Base: {{ VUE_APP_MOCK_SERVER + row.baseuri }}</p>
+                  <p>URL全路径: {{ VUE_APP_MOCK_SERVER + row.uri }}</p>
+                  <!-- <el-table :data="row">
+                                <el-table-column width="150" property="basePath" label="URL Base"></el-table-column>
+                                <el-table-column width="100" property="fullPath" label="URL全路径"></el-table-column>
+                            </el-table> -->
+                  <div slot="reference" class="name-wrapper">
+                    <span class="link-type" @click="handleUpdate(row)">{{ row.uri }}</span>
+                  </div>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column label="URL Base" width="150px" >
+                    <template slot-scope="{row}">
+                        <span>{{ row.basePath | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="URL全路径" width="150px" >
+                    <template slot-scope="{row}">
+                        <span>{{ row.fullPath | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+                    </template>
+                </el-table-column> -->
+            <el-table-column label="创建人" width="110px">
+              <template slot-scope="{row}">
+                <span>{{ row.creator }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="修改人" width="110px">
+              <template slot-scope="{row}">
+                <span>{{ row.modifier }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="修改时间" width="110px">
+              <template slot-scope="{row}">
+                <span>{{ row.modifytime }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="Actions" width="230" class-name="small-padding fixed-width">
+              <template slot-scope="{row,$index}">
+                <el-button type="primary" size="mini" @click="handleUpdate(row)">
+                  编辑
+                </el-button>
 
-          <el-button slot="reference" size="mini" type="danger" @click="handleDelete(row, $index)">
-            删除</el-button>
-          <el-button size="mini" type="success" @click="handletest(row, 'published')">
-            测试
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+                <el-button slot="reference" size="mini" type="danger" @click="handleDelete(row, $index)">
+                  删除</el-button>
+                <el-button size="mini" type="success" @click="handletest(row, 'published')">
+                  测试
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+
+        </el-main>
+      </el-container>
+    </el-container>
 
     <pagination
       v-show="total > 0"
@@ -734,13 +777,17 @@ export default {
       }
     },
     postData(url, data) {
-      axios.post(process.env.VUE_APP_MOCK_SERVER + url, data)
+      axios.post({
+        url: process.env.VUE_APP_MOCK_SERVER + url,
+        data: data,
+        withCredentials: true,
+        headers: {
+          'Referrer-Policy': 'no-referrer-when-downgrade'
+        }})
         .then(response => {
           this.handlePostCallback(response)
           this.getList()
-        }
-
-        ).catch((err) => {
+        }).catch((err) => {
           this.$notify.error({
             title: '失败',
             message: err,
