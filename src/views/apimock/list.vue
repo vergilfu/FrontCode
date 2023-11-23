@@ -69,11 +69,11 @@
     </div>
     <el-container style="">
 
-      <el-aside width="200px" style="">
+      <!-- <el-aside width="200px" style="">
         <el-button type="primary" icon="el-icon-document-add" style="" circle />
         <el-button type="primary" icon="el-icon-edit" circle />
         <el-button type="danger" icon="el-icon-delete" circle />
-        <!-- <el-header style="font-size: 12px">
+        <el-header style="font-size: 12px">
           <el-dropdown>
             <i class="el-icon-setting" style="margin-right: 15px"></i>
             <el-dropdown-menu slot="dropdown">
@@ -83,7 +83,7 @@
             </el-dropdown-menu>
           </el-dropdown>
           <span>操作</span>
-        </el-header> -->
+        </el-header>
         <el-menu :default-openeds="['1', '3']">
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message" />导航一</template>
@@ -102,7 +102,7 @@
           </el-submenu>
 
         </el-menu>
-      </el-aside>
+      </el-aside> -->
 
       <el-container>
 
@@ -480,7 +480,7 @@ import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 // import JsonEditor from '@/components/JsonEditor'
-import axios from 'axios'
+// import axios from 'axios'
 // import { TransitionGroupStub } from '@vue/test-utils'
 import clip from '@/utils/clipboard' // use clipboard directly
 import clipboard from '@/directive/clipboard/index.js' // use clipboard by v-directive
@@ -645,7 +645,7 @@ export default {
         'uri': form.path,
         'fid': form.fid
       }
-      axios.get(process.env.VUE_APP_MOCK_SERVER + '/mock/query', { params })
+      this.$axios.get(process.env.VUE_APP_MOCK_SERVER + '/mock/query', { params })
         .then(response => {
           this.tablelist = response.data.data
           this.total = this.tablelist.length
@@ -707,10 +707,6 @@ export default {
         const data = this.tablelist[i]
         let tp = this.temp.basePath + this.temp.path
         tp = tp.replace('//', '/')
-        console.log(this.temp)
-        console.log(tp, data.uri)
-        console.log(this.temp.fid, data.fid)
-
         if (data.uri === tp && data.fid !== this.temp.fid) {
           console.log('验证重复')
           return true
@@ -719,8 +715,6 @@ export default {
       return false
     },
     formValidateMore(valid) {
-      console.log('this.temp', this.temp)
-      console.log('this.dataForm', this.$refs['dataForm'])
       if (!valid) {
         this.$notify.error({
           title: '失败',
@@ -777,24 +771,25 @@ export default {
       }
     },
     postData(url, data) {
-      axios.post({
+      this.$axios({
+        method: 'post',
         url: process.env.VUE_APP_MOCK_SERVER + url,
-        data: data,
-        withCredentials: true,
-        headers: {
-          'Referrer-Policy': 'no-referrer-when-downgrade'
-        }})
-        .then(response => {
-          this.handlePostCallback(response)
-          this.getList()
-        }).catch((err) => {
-          this.$notify.error({
-            title: '失败',
-            message: err,
-            duration: 2000
-          })
-        }
-        )
+        data: data
+        // withCredentials: true,
+        // headers: {
+        //   'Referrer-Policy': 'no-referrer-when-downgrade'
+        // }
+      }).then(response => {
+        this.handlePostCallback(response)
+        this.getList()
+      }).catch((err) => {
+        this.$notify.error({
+          title: '失败',
+          message: err,
+          duration: 2000
+        })
+      }
+      )
     },
     createData() {
       const uri = this.temp.basePath + this.temp.path
