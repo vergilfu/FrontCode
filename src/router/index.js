@@ -11,7 +11,8 @@ import Layout from '@/layout'
 // import chartsRouter from './modules/charts'
 // import tableRouter from './modules/table'
 // import nestedRouter from './modules/nested'
-import taskRouter from './modules/task'
+import littlethingsRouter from './modules/littlethings'
+import robotsRouter from './modules/robots'
 
 // import codemirror from './modules/codemirror'
 /**
@@ -96,7 +97,7 @@ export const constantRoutes = [{
 export const asyncRoutes = [
 
   /** when your routing map is too long, you can split it into small modules **/
-  taskRouter,
+  littlethingsRouter, robotsRouter,
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

@@ -2,32 +2,53 @@
   <el-form :inline="true" :model="formInline" class="demo-form-inline">
     <el-container>
       <el-header style="text-align: left; font-size: 12px;height: 500px;">
-        <div style="margin-top:15px;">
+        <div style="position: relative;margin-top:15px;">
           <el-carousel :interval="4000" type="card" height="450px">
-            <el-carousel-item v-for="item in 6" :key="item">
-              <h3 class="medium">{{ item }}</h3>
+            <el-carousel-item v-for="item in pictureItems" :key="item.url">
+              <div>
+                <img
+                  style="max-width: 100%; max-height: 100%; width: auto; height: auto; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
+                  :src="item.url"
+                  alt="图片加载失败"
+                >
+              </div>
             </el-carousel-item>
           </el-carousel>
         </div>
       </el-header>
-      <el-main style="text-align: left; font-size: 16px;height:300px;">
-        <div>
-          <el-col v-for="(o, index) in 2" :key="o" :span="8" :offset="index > 0 ? 2 : 0">
-            <el-card :body-style="{ padding: '0px' }">
-              <img
-                src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                class="image"
-              >
-              <div style="padding: 12px;">
-                <span>好吃的汉堡</span>
-                <div class="bottom clearfix">
-                  <time class="time">{{ currentDate }}</time>
-                  <el-button type="text" class="button">操作按钮</el-button>
-                </div>
-              </div>
-            </el-card>
-          </el-col>
+
+      <el-main class="horizontal-layout" style="text-align: left; padding-left: 100px;padding-left: 100px;height:380px;">
+
+        <div style="width: 25%;height: 300px;">
+          <el-card>
+            <img :src="iconItems.pictureicon.url" class="card-image">
+            <div class="card-content">
+              <h3 class="card-title">我们的相册（浪漫时间线）</h3>
+              <p class="card-text">这里展示了我们的相册哟~</p>
+            </div>
+          </el-card>
         </div>
+
+        <div style="width: 25%;height: 300px;">
+          <el-card>
+            <img :src="iconItems.finance.url" class="card-image">
+            <div class="card-content">
+              <h3 class="card-title">我们的存钱罐</h3>
+              <p class="card-text">一起存钱钱吧~</p>
+            </div>
+          </el-card>
+        </div>
+
+        <div style="width: 25%;height: 300px;">
+          <el-card>
+            <img :src="iconItems.roboticon.url" class="card-image">
+            <div class="card-content">
+              <h3 class="card-title">gpt-4.0</h3>
+              <p class="card-text">给我们bb做了个机器人哟，口语陪练、写作批改等功能一应俱全，还有什么需求敲我~</p>
+            </div>
+          </el-card>
+        </div>
+
       </el-main>
     </el-container>
   </el-form>
@@ -39,12 +60,24 @@ import adminDashboard from './admin'
 import editorDashboard from './editor'
 
 export default {
-  name: '',
+  name: 'CardComponent',
   components: { adminDashboard, editorDashboard },
   data() {
     return {
       currentRole: 'adminDashboard',
-      currentDate: new Date()
+      currentDate: new Date(),
+      pictureItems: [
+        { url: require('@/assets/dashboard/image/1.jpg'), alt: '图片1' },
+        { url: require('@/assets/dashboard/image/2.jpg'), alt: '图片2' },
+        { url: require('@/assets/dashboard/image/3.jpg'), alt: '图片3' },
+        { url: require('@/assets/dashboard/image/4.jpg'), alt: '图片4' },
+        { url: require('@/assets/dashboard/image/5.jpg'), alt: '图片5' }
+      ],
+      iconItems: {
+        pictureicon: { url: require('@/assets/dashboard/image/photo.jpg'), alt: '相册' },
+        roboticon: { url: require('@/assets/dashboard/image/robot.jpg'), alt: '对话机器人' },
+        finance: { url: require('@/assets/dashboard/image/finance.jpg'), alt: '财务' }
+      }
     }
   },
   computed: {
@@ -59,45 +92,29 @@ export default {
 </script>
 
 <style>
-.time {
-  font-size: 13px;
-  color: #999;
+.card-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
-
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
+.card-content {
+  padding: 10px;
 }
-.button {
-  padding: 0;
-  float: right;
+.card-title {
+  font-size: 20px;
+  margin-bottom: 10px;
 }
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-
-.clearfix:after {
-  clear: both;
-}
-.image {
-  width: 100%;
-  display: block;
-}
-.el-carousel__item h3 {
-  color: #475669;
+.card-text {
   font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
+  height: 50px;
+}
+.horizontal-layout{
+    display: flex;
+    flex-direction: row;
 }
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
+.item{
+    flex: 1;
+    padding: 10px;
 }
 </style>
