@@ -13,6 +13,7 @@ import Layout from '@/layout'
 // import nestedRouter from './modules/nested'
 import littlethingsRouter from './modules/littlethings'
 import robotsRouter from './modules/robots'
+import studyRouter from './modules/study'
 
 // import codemirror from './modules/codemirror'
 /**
@@ -97,7 +98,7 @@ export const constantRoutes = [{
 export const asyncRoutes = [
 
   /** when your routing map is too long, you can split it into small modules **/
-  littlethingsRouter, robotsRouter,
+  littlethingsRouter, robotsRouter, studyRouter,
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
