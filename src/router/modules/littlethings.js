@@ -9,7 +9,7 @@ const photolineRouter = {
   name: 'littlethings',
   meta: {
     title: '点点滴滴',
-    icon: 'table'
+    icon: 'screen'
   },
   children: [{
     path: 'photoline',

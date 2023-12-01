@@ -9,7 +9,7 @@ const studyRouter = {
   name: '学习',
   meta: {
     title: '学习',
-    icon: 'table'
+    icon: 'education'
   },
   children: [{
     path: 'marknotes',

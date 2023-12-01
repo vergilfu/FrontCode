@@ -9,14 +9,22 @@ const robotsRouter = {
   name: 'robots',
   meta: {
     title: 'gpt-4.0',
-    icon: 'table'
+    icon: 'robot'
   },
   children: [{
     path: 'robots',
     component: () =>
       import('@/views/robots/robots'),
-    name: 'gpt-4.0',
-    meta: { title: 'gpt-4.0' }
-  }]
+    name: '对话机器人',
+    meta: { title: 'gpt' }
+  },
+  {
+    path: 'audio',
+    component: () =>
+      import('@/views/robots/audio'),
+    name: '语音',
+    meta: { title: 'audio' }
+  }
+]
 }
 export default robotsRouter
