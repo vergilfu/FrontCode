@@ -1,4 +1,5 @@
 <template>
+<div class = "background">
   <div style="display: flex;  justify-content: space-between;">
     <div class="timeline">
       <ul>
@@ -30,6 +31,7 @@
         </el-card>
       </el-col>
     </div>
+  </div>
   </div>
 </template>
 
@@ -86,6 +88,14 @@ export default {
 </script>
 
 <style scoped>
+.background{
+  background:url("~@/assets/dashboard/image/background.jpg");
+  width:100%;
+  height:100%;
+  position:fixed;
+  background-size:100% 100%;
+}
+
 .timeline {
   width: 50%;
   margin-left: 5%;

@@ -67,7 +67,8 @@ export default {
   },
 
   created() {
-    this.websocket = new WebSocket('ws://172.20.200.121:8090') // 替换为你的WebSocket地址
+    console.log(process.env.VUE_APP_CONFIG_WS)
+    this.websocket = new WebSocket(process.env.VUE_APP_CONFIG_WS) // 替换为你的WebSocket地址
     this.websocket.onmessage = (event) => {
       this.robotmsg = event.data
     }

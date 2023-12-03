@@ -1,79 +1,110 @@
 <template>
-
-  <div class="notebook-container">
-
-    <!-- 左边侧边栏 -->
-
-    <div class="sidebar">
-      <h2>文件夹</h2>
-      <ul>
-        <li v-for="(folder, index) in folders" :key="index" @click="selectFolder(folder)">
-          {{ folder.name }}
-        </li>
-      </ul>
-    </div>
-
-    <!-- 右边笔记内容区域 -->
-
-    <div class="note-area">
-      <h2>{{ selectedFolder.name }}</h2>
-      <div>
-        <textarea v-model="selectedFolder.note" class="myTextarea" />
-      </div>
-    </div>
-  </div>
+  <el-container class="top-con">
+    <el-aside class = 'aside-con'>
+      <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+    </el-aside>
+    <el-container class="content-con">
+      <el-header>
+        <textarea rows="2" ref="myTextarea" v-model="title" class="title" placeholder="请输入title"></textarea>
+      </el-header>
+      <el-main>
+        <textarea rows="10" ref="myTextarea" v-model="content" class="content" placeholder="请输入内容"></textarea>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 <script>
-
-/* eslint-disable import/no-webpack-loader-syntax */
-import marked from '!!raw-loader!marked'
-
 export default {
   data() {
     return {
-      folders: [
-        { name: '文件夹1', note: '这是文件夹1的笔记内容' },
-        { name: '文件夹2', note: '这是文件夹2的笔记内容' },
-        { name: '文件夹3', note: '这是文件夹3的笔记内容' }
+      data: [
+        {
+          label: "一级 1",
+          children: [
+            {
+              label: "二级 1-1",
+              children: [
+                {
+                  label: "三级 1-1-1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          label: "一级 2",
+          children: [
+            {
+              label: "二级 2-1",
+              children: [
+                {
+                  label: "三级 2-1-1"
+                }
+              ]
+            },
+            {
+              label: "二级 2-2",
+              children: [
+                {
+                  label: "三级 2-2-1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          label: "一级 3",
+          children: [
+            {
+              label: "二级 3-1",
+              children: [
+                {
+                  label: "三级 3-1-1"
+                }
+              ]
+            },
+            {
+              label: "二级 3-2",
+              children: [
+                {
+                  label: "三级 3-2-1"
+                }
+              ]
+            }
+          ]
+        }
       ],
-      selectedFolder: { name: '', note: '' }
-    }
+      defaultProps: {
+        children: "children",
+        label: "label"
+      }
+    };
   },
 
   methods: {
-    selectFolder(folder) {
-      this.selectedFolder = { ...folder }
+    handleNodeClick(data) {
+      console.log(data);
     }
   }
-}
+};
 </script>
 <style>
-.notebook-container {
-display: flex;
-justify-content: space-between;
+.top-con {
+  height: 100vh;
 }
-.sidebar {
-min-width: 200px;
-background-color: #f0f0f0;
-padding: 20px;
+.aside-con {
+  width:100px;
 }
-ul {
-list-style: none;
-padding: 0;
+.title {
+  width: 80%;
+  min-height: 50px;
+  resize: none;
+  margin: 2%;
 }
-li {
-cursor: pointer;
-margin-bottom: 10px;
-}
-.note-area {
-flex-grow: 1;
-padding: 20px;
-}
-h2 {
-margin-bottom: 10px;
-}
-.myTextarea {
-width: 100%;
-height: 300px;
+.content {
+  width: 80%;
+  min-height: 50px;
+  resize: none;
+  margin: 2%;
 }
 </style>
